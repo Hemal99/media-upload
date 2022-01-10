@@ -1,18 +1,22 @@
 const express = require('express');
-const {addStudent, 
-       getAllStudents, 
-       getStudent,
-       updateStudent,
-       deleteStudent
+const {uploadMedia, 
+       
       } = require('../controllers/studentController');
+
+const multer = require('multer')
+const uploadMediaFile = require('../services/firebase')
+
+const Multer = multer({
+    storage:multer.memoryStorage(),
+    limits:1024*1024,
+
+})
+
 
 const router = express.Router();
 
-router.post('/student', addStudent);
-router.get('/students', getAllStudents);
-router.get('/student/:id', getStudent);
-router.put('/student/:id', updateStudent);
-router.delete('/student/:id', deleteStudent);
+router.post('/student',Multer.single("image"),uploadMediaFile, uploadMedia);
+
 
 
 module.exports = {
